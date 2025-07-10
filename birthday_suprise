@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Someone Special</title>
+    <style>
+        /* === Global Styles === */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;500&family=Dancing+Script:wght@700&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            transition: background 1.5s ease-in-out;
+        }
+
+        /* === Floating Particles Background === */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        /* === Animated Reveal Sequence === */
+        #animation-sequence {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .animation-step {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            position: absolute;
+            width: 80%;
+            max-width: 600px;
+            display: none;
+        }
+        .heart-burst {
+            font-size: 100px;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .message-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255,107,107,0.5);
+        }
+        .continue-btn {
+            padding: 12px 30px;
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 30px;
+            transition: all 0.3s;
+        }
+        .continue-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === Mysterious Phase === */
+        #password-screen {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            animation: fadeIn 2s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        #password-input {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+            background: transparent;
+            color: white;
+            text-align: center;
+            margin: 20px 0;
+            width: 250px;
+            transition: all 0.3s;
+        }
+        #password-input:focus {
+            outline: none;
+            border-bottom: 2px solid #ff6b6b;
+        }
+        #submit-password {
+            padding: 12px 30px;
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        #submit-password:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* === Sweet Phase === */
+        #content {
+            display: none;
+            opacity: 0;
+            animation: fadeInUp 1s 0.5s forwards;
+        }
+        .section {
+            padding: 80px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+        h2 {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 50px;
+        }
+        h2:after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(to right, #ff6b6b, #ffa3a3);
+            bottom: -10px;
+            left: 25%;
+            border-radius: 3px;
+        }
+
+        /* === Memory Cards (Glow Effect) === */
+        .memory-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px auto;
+            max-width: 500px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .memory-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: 0.5s;
+        }
+        .memory-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .memory-card:hover:before {
+            left: 100%;
+        }
+        .memory-card h3 {
+            margin-top: 0;
+            color: #ffd166;
+        }
+
+        /* === Reveal Button Styles === */
+        .reveal-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 15px;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        .reveal-btn:hover {
+            background: rgba(255, 107, 107, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .hidden-message {
+            display: none;
+            animation: fadeIn 0.5s forwards;
+            margin-top: 15px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === Quiz Options (Pulse Animation) === */
+        .quiz-option {
+            padding: 15px;
+            margin: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .quiz-option:hover {
+            background: rgba(255, 107, 107, 0.2);
+            animation: pulse 1s infinite;
+        }
+
+        /* === Poetry Section (Typewriter + Glow) === */
+        #poem-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 24px;
+            line-height: 1.8;
+            min-height: 200px;
+            padding: 20px;
+            border-left: 3px solid #ff6b6b;
+            text-shadow: 0 0 10px rgba(255, 214, 102, 0.3);
+        }
+        #final-button {
+            padding: 15px 40px;
+            background: transparent;
+            color: white;
+            border: 2px solid #ff6b6b;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 40px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        #final-button:hover {
+            background: rgba(255, 107, 107, 0.2);
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
+        }
+        #final-button:after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(30deg);
+            transition: all 0.3s;
+        }
+        #final-button:hover:after {
+            left: 100%;
+        }
+
+        /* === Surprise Countdown Message === */
+        #countdown-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 214, 102, 0.9);
+            color: #3a1c71;
+            padding: 30px 40px;
+            border-radius: 15px;
+            text-align: center;
+            z-index: 2000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: none;
+            animation: bounceIn 0.8s;
+            max-width: 80%;
+            font-family: 'Dancing Script', cursive;
+            font-size: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes bounceIn {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            70% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        /* === Magical Overlay === */
+        .magical-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(163, 89, 255, 0.6), rgba(58, 28, 113, 0.8));
+            z-index: 1999;
+            display: none;
+            backdrop-filter: blur(3px);
+        }
+
+        .floating-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0.7;
+            animation: float-up 15s linear infinite;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .heart-rain {
+            font-size: 30px;
+            margin: 10px 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* === Celebration Animation === */
+        .celebration-heart {
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none;
+            animation: celebrate-float 3s ease-out forwards;
+            z-index: 1000;
+        }
+
+        @keyframes celebrate-float {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-150px) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* === Responsive Design === */
+        @media (max-width: 768px) {
+            .section {
+                padding: 50px 20px;
+            }
+            #poem-text {
+                font-size: 20px;
+            }
+            .message-text {
+                font-size: 24px;
+            }
+            .heart-burst {
+                font-size: 60px;
+            }
+            #countdown-message {
+                font-size: 20px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- === Floating Particles Background === -->
+    <div id="particles-js"></div>
+    
+    <!-- === Magical Overlay === -->
+    <div class="magical-overlay" id="magical-overlay">
+        <div class="floating-hearts" id="floating-hearts"></div>
+    </div>
+
+    <!-- === Animated Reveal Sequence === -->
+    <div id="animation-sequence">
+        <div class="animation-step" id="step1">
+            <div class="heart-burst">✨</div>
+            <div class="message-text">Unlocking special memories...</div>
+        </div>
+        <div class="animation-step" id="step2">
+            <div class="heart-burst">💖</div>
+            <div class="message-text">Every moment with you feels magical</div>
+        </div>
+        <div class="animation-step" id="step3">
+            <div class="heart-burst">🌸</div>
+            <div class="message-text">Like flowers blooming in my heart</div>
+        </div>
+        <div class="animation-step" id="step4">
+            <div class="heart-burst">🌠</div>
+            <div class="message-text">You make my world shine brighter</div>
+            <button class="continue-btn" onclick="finishAnimation()">Continue to Our Story</button>
+        </div>
+    </div>
+
+    <!-- === Mysterious Phase === -->
+    <div id="password-screen">
+        <h1 style="font-size: 3em; margin-bottom: 10px;">✨</h1>
+        <h1>A Secret Garden</h1>
+        <p style="max-width: 500px; margin: 0 auto 30px; line-height: 1.6; opacity: 0.8;">
+            "Somewhere between hello and goodbye, there was love, laughter, and so much light.<br>
+            Enter the password to remember."
+        </p>
+        <input type="password" id="password-input" placeholder="(Hint: What lights up my day)">
+        <button id="submit-password">Unlock Memories</button>
+        <p id="hint" style="margin-top: 30px; font-size: 14px; opacity: 0.5;">*Try 'sunshine'*</p>
+    </div>
+
+    <!-- === Main Content (Hidden Until Password) === -->
+    <div id="content">
+        <!-- Sweet Phase -->
+        <div class="section" style="padding-top: 120px;">
+            <h2>For You, My Sunshine</h2>
+            
+            <div class="memory-card">
+                <h3>Your Magic</h3>
+                <p style="opacity: 0.7;">What I cherish about you</p>
+                <button class="reveal-btn" onclick="revealMessage(this)">Reveal</button>
+                <div class="hidden-message">
+                    <p style="opacity: 0.9;">You are my Office Unicorn, Donalika. With that little presence of yours in the office I felt a way lot better. This office, and the sudden transition from college to corporate brought me endless tears. But it is "YOU" who gave me a little joy in this new frontier.</p>
+                </div>
+            </div>
+            
+            <div class="memory-card">
+                <h3>Remember When...</h3>
+                <p style="opacity: 0.7;">A memory I hold close</p>
+                <button class="reveal-btn" onclick="revealMessage(this)">Reveal</button>
+                <div class="hidden-message">
+                    <p style="opacity: 0.9;">On Women's Day, You called me Vinni..Awww..I melted like an ice. And it didn't end there I even got your hug.OMG!!! That was a "W"!!</p>
+                    <div style="margin-top: 15px; font-size: 24px; text-align: center;">🍦</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fun Phase -->
+        <div class="section" id="quiz" style="background: rgba(0, 0, 0, 0.2);">
+            <h2>Our Little Game</h2>
+            <p style="margin-bottom: 30px; font-size: 18px;">How well do you know... <i>us</i>?</p>
+            
+            <div class="quiz-option" onclick="this.innerHTML = 'Close! But it\'s deeper → <i>Your courage</i>'">Your laugh</div>
+            <div class="quiz-option" onclick="this.innerHTML = '✨ Exactly this. You see people in color when the world shows grayscale.'">Your empathy</div>
+            <div class="quiz-option" onclick="this.innerHTML = 'Nope! Think of what you gave me when I needed it most.'">Your style</div>
+        </div>
+
+        <!-- Poetry Phase -->
+        <div class="section" id="poetry">
+            <h2>A Whisper to Your Heart</h2>
+            <div id="poem-text"></div>
+            <button id="final-button" onclick="celebrate()">Click If You've Ever Made My Day Better</button>
+        </div>
+    </div>
+
+    <!-- === Surprise Countdown Message === -->
+    <div id="countdown-message">
+        <div class="heart-rain">💖</div>
+        <div>One magical month to go until your special day, my darling Donalika! ✨</div>
+        <div style="margin-top: 15px; font-size: 18px;">Every day with you feels like a celebration, but this one will be extra sparkly - just like you!</div>
+        <div class="heart-rain">💖</div>
+        <button onclick="closePopup()" 
+        style="margin-top: 20px; padding: 8px 20px; background: #3a1c71; color: white; border: none; border-radius: 20px; cursor: pointer;">
+            My heart is ready! 💝
+        </button>
+    </div>
+
+    <!-- Audio elements - two separate songs -->
+    <audio id="unlock-song" loop>
+        <source src="C:\Users\Appani Vineela\Downloads\Agar Tum Saath Ho Flute.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="celebration-song" loop>
+        <source src="C:\Users\Appani Vineela\Downloads\Bangaramma - SenSongsmp3 (mp3cut.net).mp3"type="audio/mpeg">
+    </audio>
+
+    <!-- === JavaScript === -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // === Initialize Particles.js ===
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                    "color": { "value": "#ffffff" },
+                    "shape": { "type": "circle", "stroke": { "width": 0, "color": "#000000" } },
+                    "opacity": { "value": 0.5, "random": true },
+                    "size": { "value": 3, "random": true },
+                    "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.2, "width": 1 },
+                    "move": { "enable": true, "speed": 2, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": { "enable": true, "mode": "grab" },
+                        "onclick": { "enable": true, "mode": "push" }
+                    }
+                }
+            });
+
+            // Create floating hearts for overlay
+            createFloatingHearts();
+        });
+
+        // Create floating hearts for magical overlay
+        function createFloatingHearts() {
+            const container = document.getElementById('floating-hearts');
+            const heartIcons = ['💖', '💗', '💓', '💘', '💝', '💞'];
+            
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerHTML = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+                
+                // Random properties
+                const size = Math.random() * 20 + 15;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 10 + 10;
+                const delay = Math.random() * 15;
+                
+                heart.style.left = `${left}%`;
+                heart.style.fontSize = `${size}px`;
+                heart.style.animationDuration = `${duration}s`;
+                heart.style.animationDelay = `${delay}s`;
+                
+                container.appendChild(heart);
+            }
+        }
+
+        // === Password Check ===
+        document.getElementById('submit-password').addEventListener('click', function() {
+            const password = document.getElementById('password-input').value;
+            if (password.toLowerCase() === 'sunshine') {
+                // Play first song when password is correct
+                const unlockSong = document.getElementById('unlock-song');
+                unlockSong.volume = 0.3;
+                unlockSong.play();
+                
+                // Hide password screen
+                document.getElementById('password-screen').style.display = 'none';
+                
+                // Start the animation sequence
+                document.getElementById('animation-sequence').style.display = 'flex';
+                startAnimationSequence();
+            } else {
+                alert("Not quite... Hint: It's what you bring to my darkest days.");
+            }
+        });
+
+        // === Fixed Animation Sequence ===
+        function startAnimationSequence() {
+            // Show first step immediately
+            document.getElementById('step1').style.display = 'block';
+            document.getElementById('step1').style.animation = 'fadeInUp 1s forwards';
+            
+            // Sequence through steps
+            setTimeout(() => {
+                document.getElementById('step1').style.animation = 'fadeInUp 1s reverse forwards';
+                setTimeout(() => {
+                    document.getElementById('step1').style.display = 'none';
+                    document.getElementById('step2').style.display = 'block';
+                    document.getElementById('step2').style.animation = 'fadeInUp 1s forwards';
+                }, 1000);
+            }, 2500);
+            
+            setTimeout(() => {
+                document.getElementById('step2').style.animation = 'fadeInUp 1s reverse forwards';
+                setTimeout(() => {
+                    document.getElementById('step2').style.display = 'none';
+                    document.getElementById('step3').style.display = 'block';
+                    document.getElementById('step3').style.animation = 'fadeInUp 1s forwards';
+                }, 1000);
+            }, 5000);
+            
+            setTimeout(() => {
+                document.getElementById('step3').style.animation = 'fadeInUp 1s reverse forwards';
+                setTimeout(() => {
+                    document.getElementById('step3').style.display = 'none';
+                    document.getElementById('step4').style.display = 'block';
+                    document.getElementById('step4').style.animation = 'fadeInUp 1s forwards';
+                }, 1000);
+            }, 7500);
+        }
+        
+        function finishAnimation() {
+            // Show the magical overlay and countdown message
+            document.getElementById('magical-overlay').style.display = 'block';
+            document.getElementById('countdown-message').style.display = 'block';
+            
+            // Fade out first song and play second song
+            const unlockSong = document.getElementById('unlock-song');
+            const celebrationSong = document.getElementById('celebration-song');
+            
+            // Fade out first song
+            let fadeOut = setInterval(() => {
+                if (unlockSong.volume > 0.1) {
+                    unlockSong.volume -= 0.1;
+                } else {
+                    clearInterval(fadeOut);
+                    unlockSong.pause();
+                }
+            }, 200);
+            
+            // Play second song
+            celebrationSong.volume = 0; // Start at 0 volume
+            celebrationSong.play();
+            
+            // Fade in second song
+            let fadeIn = setInterval(() => {
+                if (celebrationSong.volume < 0.3) {
+                    celebrationSong.volume += 0.1;
+                } else {
+                    clearInterval(fadeIn);
+                }
+            }, 200);
+
+            // Create floating hearts
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '💖';
+                    heart.style.position = 'fixed';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.top = '-50px';
+                    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                    heart.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 5000);
+                }, i * 200);
+            }
+            
+            const sequence = document.getElementById('animation-sequence');
+            sequence.style.animation = 'fadeIn 0.5s reverse forwards';
+            
+            setTimeout(() => {
+                sequence.style.display = 'none';
+                
+                // Proceed with the rest of the content
+                document.body.style.background = 'linear-gradient(135deg, #1a1a2e, #16213e, #0d324d)';
+                document.getElementById('content').style.display = 'block';
+                
+                setTimeout(() => {
+                    document.getElementById('content').style.opacity = '1';
+                    document.querySelector('.section').style.animation = 'fadeInUp 1s forwards';
+                }, 500);
+                
+                setTimeout(() => {
+                    document.getElementById('quiz').style.display = 'block';
+                    document.getElementById('quiz').style.animation = 'fadeInUp 1s forwards';
+                }, 1500);
+                
+                setTimeout(() => {
+                    document.getElementById('poetry').style.display = 'block';
+                    document.getElementById('poetry').style.animation = 'fadeInUp 1s forwards';
+                    typewriterPoem();
+                }, 2500);
+            }, 500);
+        }
+
+        // Close popup function
+        function closePopup() {
+            document.getElementById('magical-overlay').style.display = 'none';
+            document.getElementById('countdown-message').style.display = 'none';
+            // Note: We don't pause any songs here so they continue playing
+        }
+
+        // === Typewriter Poetry ===
+        function typewriterPoem() {
+            const poem = [
+                "They told me, 'Don't mix work with heart,'",
+                "but no one warned me about you—",
+                "how your presence would become",
+                "my favorite kind of overtime.",
+                "",
+                "Now every 'hello' feels like",
+                "clocking in to joy,",
+                "and 'goodbyes'...",
+                "just unpaid leave.",
+                "",
+                "- Always Your Vinni"
+            ];
+            
+            const poemElement = document.getElementById('poem-text');
+            let i = 0, j = 0;
+            
+            function type() {
+                if (i < poem.length) {
+                    if (j < poem[i].length) {
+                        poemElement.innerHTML = poem.slice(0, i).join('<br>') + '<br>' + poem[i].substring(0, j + 1);
+                        j++;
+                        setTimeout(type, 50);
+                    } else {
+                        i++;
+                        j = 0;
+                        poemElement.innerHTML = poem.slice(0, i).join('<br>');
+                        setTimeout(type, 200);
+                    }
+                }
+            }
+            type();
+        }
+
+        // === Reveal Message Function ===
+        function revealMessage(button) {
+            const card = button.parentElement;
+            const messageDiv = card.querySelector('.hidden-message');
+            
+            // Hide the button
+            button.style.display = 'none';
+            
+            // Show the message with animation
+            messageDiv.style.display = 'block';
+            
+            // Animate the card
+            card.style.transform = 'translateY(-10px) scale(1.02)';
+            card.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.3)';
+        }
+
+        // === Celebration Effect ===
+        function celebrate() {
+            const button = document.getElementById('final-button');
+            
+            // Change button text with animation
+            button.innerHTML = 'Spoiler: You Always Do ❤️';
+            button.style.transform = 'scale(1.1)';
+            button.style.backgroundColor = 'rgba(255, 107, 107, 0.3)';
+            button.style.boxShadow = '0 0 20px rgba(255, 107, 107, 0.6)';
+            button.style.animation = 'pulse 0.5s 3';
+            
+            // Change background to celebration theme
+            document.body.style.background = 'linear-gradient(135deg, #ff0066, #ff512f, #ff0066)';
+            
+            // Create floating hearts
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    createHeart(button);
+                }, i * 100);
+            }
+            
+            // Load confetti library
+            const confettiScript = document.createElement('script');
+            confettiScript.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js';
+            document.head.appendChild(confettiScript);
+            
+            confettiScript.onload = () => {
+                // Heart-shaped confetti
+                const heart = confetti.shapeFromText({ text: '❤️', scalar: 3 });
+                
+                // Big initial burst
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    shapes: [heart],
+                    origin: { y: 0.6 },
+                    colors: ['#ff0000', '#ff69b4', '#ff1493']
+                });
+                
+                // Continuous smaller bursts
+                const interval = setInterval(() => {
+                    confetti({
+                        particleCount: 20,
+                        spread: 50,
+                        shapes: [heart],
+                        origin: { x: Math.random(), y: 0.6 },
+                        colors: ['#ff0000', '#ff69b4', '#ff1493']
+                    });
+                }, 300);
+                
+                // Stop after 3 seconds
+                setTimeout(() => {
+                    clearInterval(interval);
+                }, 3000);
+            };
+        }
+
+        function createHeart(button) {
+            const heart = document.createElement('div');
+            heart.className = 'celebration-heart';
+            heart.innerHTML = '❤️';
+            
+            // Position near the button
+            const buttonRect = button.getBoundingClientRect();
+            const x = buttonRect.left + buttonRect.width/2 - 12;
+            const y = buttonRect.top + buttonRect.height/2 - 12;
+            
+            heart.style.left = `${x}px`;
+            heart.style.top = `${y}px`;
+            
+            // Random size and animation duration
+            const size = Math.random() * 20 + 15;
+            const duration = Math.random() * 2 + 2;
+            
+            heart.style.fontSize = `${size}px`;
+            heart.style.animationDuration = `${duration}s`;
+            
+            document.body.appendChild(heart);
+            
+            // Remove after animation completes
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+    </script>
+</body>
+</html>
